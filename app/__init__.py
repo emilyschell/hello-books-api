@@ -27,10 +27,15 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     from app.models.book import Book
     from app.models.author import Author
+    from app.models.genre import Genre
+    from app.models.BookGenre import BookGenre
 
     # Register Blueprints here
-    from .routes import books_bp, authors_bp
+    from .book_routes import books_bp
+    from .author_routes import authors_bp
+    from .genre_routes import genres_bp
     app.register_blueprint(authors_bp)
     app.register_blueprint(books_bp)
+    app.register_blueprint(genres_bp)
 
     return app

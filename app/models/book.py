@@ -7,3 +7,19 @@ class Book(db.Model):
     description = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
     author = db.relationship("Author", back_populates="books")
+    genres = db.relationship("Genre", secondary="book_genre", backref="books")
+
+    def to_dict(self):
+        book_dict = {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description
+        }
+
+        if self.author:
+            book_dict["author"] = self.author.name
+        if self.genres:
+            genre_names = [genre.name for genre in self.genres]
+            book_dict["genres"] = genre_names
+
+        return book_dict
